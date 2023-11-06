@@ -1,77 +1,48 @@
 const makeShip = require("./ship");
 
-function makeBoard() {
-
-  let grid, ships = [];
-
-  function makeSquare(x, y) {
-    let coordinates = [x, y];
-    let attacked = false;
-    let occupied = false;
-    let occupyingShip = null;
-    return { coordinates: coordinates, attacked: attacked, occupied: occupied, occupyingShip };
+const makeBoard = () => {
+  const coordinates = [];
+  const ships = []
+  //create 10x10 grid, assign each a value from 0 - 99
+  for (let i = 0; i < 100; i++) {
+    coordinates.push({ location: i, isOccupied: false, attacked: false });
   }
-  (function fillGrid() {
-    for (let i = 0; i < 10; i++) {
-      let row = [];
-      for (let j = 0; j < 10; j++) {
-        row.push(makeSquare(i, j));
+
+  const placeShip = (length, location, xAxis) => {
+    const ship = makeShip(length);
+    if (xAxis) {
+      for (let i = 0; i < ship.length; i++) {
+        coordinates[location + i].isOccupied = true;
+        ship.occupiedSquares.push(location + i);
       }
-      grid.push(row);
+    } else {
+      for (let i = 0; i < ship.length; i++) {
+        coordinates[location + i * 10].isOccupied = true;
+        ship.occupiedSquares.push(location + i * 10);
+      }
     }
-  })();
-
-  function receiveAttack(x, y) {
-    if (!grid[x][y].attacked) {
-      grid[x][y].attacked = true;
-      
-      if (grid[x][y].occupied) {
-        console.log('ship hit!')
-
-        grid[x][y].occupyingShip.hitCount += 1;
-        if (grid[x][y].occupyingShip.hitCount >= grid[x][y].occupyingShip().shipLength) {
-          grid[x][y].occupyingShip.sunk = true;
-          console.log('ship sunk!')
-          checkShips();
-        }
-      }
-      else console.log('ship miss!')
-    } else console.log("invalid coordinate, already attacked");
-  }
-  // add condition if squares are available
-  // add condition if ship is available (maybe add to UI)
-  
-  const placeShip = (length, x, y, vertical) => {
-    const ship = makeShip(length, x, y, vertical);
-    if (vertical) {
-      for (let i = 0; i < length; i++) {
-        if (grid.coordinates[x][y+i].occupied) {
-        let x = ship.coordinates[i][0];
-        let y = ship.coordinates[i][1];
-        grid[x][y+i].occupied = true;
-        grid[x][y+i].occupyingShip = this.ship
-      } else return console.log('square unavailable')}
-      ships.push(ship);
-      return ship
-    } 
-  else if (!vertical) {
-
-  } }   
-  }
-
-  function checkShips() {
-    let check = ships.find((ship) => ship.sunk == false);
-    if (!check) {
-      return false;
-    } else return true;
-  }
-
-  return {
-    grid: grid,
-    receiveAttack: receiveAttack,
-    placeShip: placeShip,
-    ships: ships,
-    checkShips: checkShips,
+    ships.push(ship)
+    return { ship };
   };
+
+  const receiveAttack = (location) => {
+    if (!coordinates[location].attacked) {
+      coordinates[location].attacked = true;
+      if (coordinates[location].isOccupied) {
+        let target = ships.find((s) => s.occupiedSquares.includes(location));
+        target.hit(location);
+      }
+    }
+  }
+  const checkShips = () => {
+    const activeShip = ships.some((ship) => ship.isSunk() == false);
+    if (activeShip) {
+      return true
+    }
+    else return false
+  }
+
+  return { coordinates, ships, placeShip, receiveAttack, checkShips };
+};
 
 module.exports = makeBoard;
