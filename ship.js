@@ -1,24 +1,17 @@
-const makeShip = (shipLength, x, y) => {
-  const vertical = true;
-  const hitCount = 0;
-  const sunk = false;
-  const coordinates = [];
-  if (vertical === true) {
-      for (let i = 0; i < shipLength; i++) {
-        coordinates.push([x, y + i]);
-      }
-    } else {
-      for (let i = 0; i < shipLength; i++) {
-        coordinates.push([x + i, y]);
-      }
+const makeShip = (length) => {
+  const occupiedSquares = [];
+  const hits = [];
+  let sunk = false;
+  const hit = (location) => {
+    hits.push(location);
+    if (isSunk()) {sunk = true};
+  };
+  const isSunk = () => {
+    if (hits.length >= length) {
+      return sunk = true
     }
+    else return sunk = false
   };
-
-  return {
-    shipLength,
-    vertical,
-    coordinates,
-    hitCount,
-    sunk
-  };
+  return { length, occupiedSquares, hits, hit, isSunk, sunk };
+};
 module.exports = makeShip;
