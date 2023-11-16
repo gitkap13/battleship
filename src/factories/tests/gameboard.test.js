@@ -1,5 +1,5 @@
 
-const makeBoard = require("./gameboard");
+const makeBoard = require("../gameboard");
 
 describe("creates gameboard with functions", () => {
   let board = makeBoard();

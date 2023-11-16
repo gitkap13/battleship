@@ -1,0 +1,117 @@
+:root {
+  --main-bg-color: #000000;
+  --main-color: hsl(130, 100%, 56%);
+  --secondary-color: hsl(130, 83%, 32%);
+  --disabled: hsla(130, 100%, 56%, 0.308);
+}
+* {
+  display: grid;
+  font-family: monospace;
+}
+style,
+title {
+  display: none;
+}
+body {
+  background-color: var(--main-bg-color);
+  width: 100vw;
+  height: 100vh;
+  justify-items: center;
+  align-items: center;
+}
+button {
+  background-color: var(--main-color);
+}
+.container button {
+  background-color: var(--main-bg-color);
+}
+button[hit="true"] {
+  background-color: var(--main-color);
+  border-color: var(--main-bg-color);
+  border-width: 3px;
+}
+button[miss="true"] {
+  background-color: var(--disabled);
+}
+
+.container {
+  background-color: var(--main-bg-color);
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  width: 30vw;
+  height: 30vw;
+  border: 3px solid var(--main-color);
+}
+.highlight {
+  border: 2px solid red;
+}
+.ship-btns {
+  background-color: var(--main-color);
+  height: 4em;
+  width: 4em;
+  border: 1px solid var(--main-color);
+  justify-items: center;
+  align-items: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.ship-btns:hover {
+  border: 3px solid var(--main-color);
+}
+
+.tile {
+  border: 1px solid var(--main-color);
+}
+#placedship {
+  border: 3px solid var(--main-color);
+  background-color: var(--secondary-color);
+}
+#ship-btn-container {
+  display: flex;
+  flex-direction: row;
+  height: 15vh;
+  width: 50vw;
+  border: 2px solid var(--main-color);
+  border-radius: 15px;
+  justify-content: space-around;
+  align-items: center;
+}
+#startbtn {
+  background-color: var(--main-color);
+}
+#startbtn:disabled {
+  background-color: var(--disabled);
+}
+#startbtn,
+#startbtn:disabled {
+  height: 8vh;
+  width: 20vw;
+  font-size: xx-large;
+  border-radius: 15px;
+  justify-content: center;
+  align-content: center;
+}
+#result-msg {
+  position: absolute;
+  justify-content: center;
+  align-content: center;
+  background-color: var(--main-bg-color);
+  border: 5px solid var(--main-color);
+  top: 50%;
+  left: 50%;
+  height: 50vh;
+  width: 50vw;
+  font-size: 50px;
+  color: var(--main-color);
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+#xtoggle {
+  justify-content: center;
+  align-content: center;
+  border-radius: 15px;
+  font-size: larger;
+  width: 10vw;
+  height: 10vh;
+  margin: 1rem;
+}

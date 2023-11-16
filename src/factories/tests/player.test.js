@@ -1,4 +1,4 @@
-const {createHumanPlayer, createComPlayer} = require('./player')
+const {createHumanPlayer, createComPlayer} = require('../player');
 
 describe('creates player with gameboards for self and target', () => {
     let testPlayer = createHumanPlayer('testplayer');

@@ -1,4 +1,4 @@
-const makeShip = require('./ship');
+const makeShip = require('../ship');
 describe.only('ship object', () => {
     let battleship = makeShip(4);
     test('battleship has length of 4', () => {
