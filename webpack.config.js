@@ -22,7 +22,9 @@ const config = {
       jQuery: "jquery",
     }),
     new HtmlWebpackPlugin({
-      title: "battleship",
+      title: "BATTLESHIP",
+      template: './src/template.html',
+      inject: false
     }),
 
     // Add your plugins here

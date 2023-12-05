@@ -1,4 +1,8 @@
 const $ = require("jquery");
+const {hitMessage, missMessage} = require('../components/display');
+const boomMp3 = new Audio("../src/assets/sounds/8-bit-boom.mp3");
+const missMp3 = new Audio("../src/assets/sounds/8-bit-miss.mp3");
+const cannonMp3 = new Audio("../src/assets/sounds/8-bit-cannon.mp3");
 
 const makeBoard = (player = "", playerShips = []) => {
   const coordinates = [];
@@ -20,22 +24,34 @@ const makeBoard = (player = "", playerShips = []) => {
 
   function receiveAttack(tile) {
     if (!coordinates[tile].attacked) {
+      cannonMp3.play();
+      $(`#${player}-${tile}`).attr("target", "true");
       coordinates[tile].attacked = true;
       if (coordinates[tile].isOccupied) {
         let target = playerShips.find((ship) =>
           ship.occupiedSquares.includes(tile * 1)
         );
-        target.hit(tile);
-        console.log(`${target} has been hit!`);
-        $(`#${player}-${tile}`).attr("hit", "true");
-        if (target.isSunk()) {
-          sunkShips.push(target);
-        }
-        return true
+        setTimeout(() => {
+          $('#hitmsg').removeClass('hidden');
+          setTimeout(() => {$('#hitmsg').addClass('hidden');}, 500)
+          target.hit(tile);
+          boomMp3.play();
+          $(`#${player}-${tile}`).removeAttr("target");
+          $(`#${player}-${tile}`).attr("hit", "true");
+          if (target.isSunk()) {
+            sunkShips.push(target);
+          }
+        }, 2000);
+        return true;
       } else {
+      setTimeout(() => {
+        $('#missmsg').removeClass('hidden');
+        setTimeout(() => {$('#missmsg').addClass('hidden');}, 500)
+        missMp3.play();
+        $(`#${player}-${tile}`).removeAttr("target");
         $(`#${player}-${tile}`).attr("miss", "true");
-        console.log("Miss!");
-        return false
+      }, 2000)
+        return false;
       }
     } else throw new Error("Invalid coordinate: already attacked.");
   }

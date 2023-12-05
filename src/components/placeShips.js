@@ -1,10 +1,10 @@
 const $ = require("jquery");
-const initGame = require("./init-game");
+const initGame = require("./game");
 const makeShip = require("../factories/ship");
 const shipTypes = require("../reference/ship-types");
 
 const checkSquares = (start, xAxis, length, occupiedList) => {
-  start = start*1 // convert to num
+  start = start * 1; // convert to num
   let validSquares = [];
   if (xAxis) {
     // gets first digit in start
@@ -60,7 +60,7 @@ const randomShips = () => {
       newShip.occupiedSquares.push(...ship);
       occupied.push(...ship);
       finishedShips.push(newShip);
-      shipsToMake.shift()
+      shipsToMake.shift();
     }
   }
   return finishedShips;
@@ -125,6 +125,7 @@ const getShips = () => {
           newShip.occupiedSquares = coordinates;
           occupied.push(...coordinates);
           ships.push(newShip);
+          $("#xtoggle").removeClass("highlight");
           $(`#${curShip.name}`).remove();
           for (let i = 0; i < coordinates.length; i++) {
             $(`[value=${coordinates[i]}]`).attr("id", "placedship");
@@ -137,45 +138,48 @@ const getShips = () => {
         }
         if (ships.length == 5) {
           startBtn.disabled = false;
+          $("#ship-btn-container").remove();
+          $("#startbtn").removeClass("hidden");
+          $('#xtoggle').remove();
         }
       } else throw new Error("Invalid input: no ship selected");
     });
     container.appendChild(tile);
   }
-
-  $("body").append(container);
-
   const startBtn = document.createElement("button");
   startBtn.setAttribute("id", "startbtn");
   startBtn.textContent = "Start";
   startBtn.disabled = true;
+  startBtn.setAttribute("class", "hidden");
   startBtn.addEventListener("click", () => {
     $("#placement-container").remove();
     $("#ship-btn-container").remove();
     $("#startbtn").remove();
+    $("#xtoggle").remove();
     initGame(ships, randomShips());
   });
+  const xAxisToggle = document.createElement("button");
+  xAxisToggle.setAttribute("id", "xtoggle");
+  xAxisToggle.addEventListener("click", () => {
+    if (curShip.xAxis === true) {
+      curShip.xAxis = false;
+      $("#xtoggle").removeClass("highlight");
+    } else {
+      curShip.xAxis = true;
+      $("#xtoggle").addClass("highlight");
+    }
+  });
+  xAxisToggle.textContent = "X-Axis";
+  $("body").append(container);
+  $("body").append(xAxisToggle);
   $("body").append(startBtn);
 
   const setShipOptions = (() => {
     const shipBtns = document.createElement("div");
     shipBtns.setAttribute("id", "ship-btn-container");
-
     const selectListener = (btn) => {
       return (curShip.size = shipTypes[btn.id].size), (curShip.name = btn.id);
     };
-
-    const xAxisToggle = document.createElement("button");
-    xAxisToggle.setAttribute("id", "xtoggle");
-    xAxisToggle.addEventListener("click", () => {
-      if (curShip.xAxis === true) {
-        curShip.xAxis = false;
-      } else {
-        curShip.xAxis = true;
-      }
-    });
-    xAxisToggle.textContent = "Toggle Axis";
-    shipBtns.append(xAxisToggle);
 
     Object.keys(shipTypes).forEach((key) => {
       let btn = document.createElement("btn");
@@ -183,6 +187,8 @@ const getShips = () => {
       btn.setAttribute("class", "ship-btns");
       btn.setAttribute("size", `${shipTypes[key].size}`);
       btn.addEventListener("click", () => {
+        $('[toggle]').removeAttr('toggle')
+        btn.setAttribute('toggle', 'true');
         selectListener(btn);
       });
       btn.style.backgroundImage = `url(${shipTypes[key].img})`;
