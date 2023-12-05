@@ -1,9 +1,11 @@
 const $ = require("jquery");
-const {hitMessage, missMessage} = require('../components/display');
 const boomMp3 = new Audio("../src/assets/sounds/8-bit-boom.mp3");
 const missMp3 = new Audio("../src/assets/sounds/8-bit-miss.mp3");
 const cannonMp3 = new Audio("../src/assets/sounds/8-bit-cannon.mp3");
+const sunkMp3 = new Audio("../src/assets/sounds/8-bit-bubbles.mp3");
 
+// func to create 10x10 boards for players
+// takes array of ships and
 const makeBoard = (player = "", playerShips = []) => {
   const coordinates = [];
   const sunkShips = [];
@@ -22,6 +24,8 @@ const makeBoard = (player = "", playerShips = []) => {
     }
   }
 
+  // checks if target is valid and updates tile with hit or miss
+  // if hit func will check if the ship placed on tile has sunk
   function receiveAttack(tile) {
     if (!coordinates[tile].attacked) {
       cannonMp3.play();
@@ -31,36 +35,32 @@ const makeBoard = (player = "", playerShips = []) => {
         let target = playerShips.find((ship) =>
           ship.occupiedSquares.includes(tile * 1)
         );
+        target.hit(tile);
+        let sunk = target.isSunk();
+        if (sunk) sunkShips.push(target);
         setTimeout(() => {
-          $('#hitmsg').removeClass('hidden');
-          setTimeout(() => {$('#hitmsg').addClass('hidden');}, 500)
-          target.hit(tile);
           boomMp3.play();
+          if (sunk) sunkMp3.play();
           $(`#${player}-${tile}`).removeAttr("target");
           $(`#${player}-${tile}`).attr("hit", "true");
-          if (target.isSunk()) {
-            sunkShips.push(target);
-          }
         }, 2000);
         return true;
       } else {
-      setTimeout(() => {
-        $('#missmsg').removeClass('hidden');
-        setTimeout(() => {$('#missmsg').addClass('hidden');}, 500)
-        missMp3.play();
-        $(`#${player}-${tile}`).removeAttr("target");
-        $(`#${player}-${tile}`).attr("miss", "true");
-      }, 2000)
+        setTimeout(() => {
+          missMp3.play();
+          $(`#${player}-${tile}`).removeAttr("target");
+          $(`#${player}-${tile}`).attr("miss", "true");
+        }, 2000);
         return false;
       }
     } else throw new Error("Invalid coordinate: already attacked.");
   }
 
+  // checks if player still has floating ships
   function checkShips() {
     if (sunkShips.length < playerShips.length) {
       return true;
     } else {
-      console.log(`All of ${player}'s ships have sunk`);
       return false;
     }
   }
