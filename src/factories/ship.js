@@ -1,3 +1,4 @@
+const sunkMp3 = new Audio('../src/assets/sounds/8-bit-bubbles.mp3');
 
 //return ship object with coordinates and hit tracking
 const makeShip = (length = 0) => {
@@ -11,6 +12,7 @@ const makeShip = (length = 0) => {
     const isSunk = () => {
       if (!sunk) {
         if (hits.length >= length) {
+          sunkMp3.play()
           sunk = true;
           console.log("ship has sunk!");
           return true;
