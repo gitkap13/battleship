@@ -37,15 +37,14 @@ const makeBoard = (player = "", playerShips = []) => {
           ship.occupiedSquares.includes(tile * 1)
         );
         target.hit(tile);
-        console.log(target);
         let sunk = target.isSunk();
-        if (sunk) {
-          if (player == 'player2') $(`#${target.type}`).remove();
-          sunkShips.push(target);
-        }
-        setTimeout(() => {
+        if (sunk) sunkShips.push(target);
+        setTimeout(async() => {
           boomMp3.play();
-          if (sunk) sunkMp3.play();
+          if (sunk){ 
+            await sunkMp3.play();
+            if (player == 'player2') $(`#${target.type}`).remove();
+          }
           $(`#${player}-${tile}`).removeAttr("target");
           $(`#${player}-${tile}`).attr("hit", "true");
         }, 2000);
