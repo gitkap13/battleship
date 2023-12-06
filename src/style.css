@@ -7,6 +7,7 @@
 * {
   display: grid;
   font-family: "PressStart";
+  color: var(--main-color);
 }
 @font-face {
   font-family: "PressStart";
@@ -61,6 +62,8 @@ button[miss="true"].tile {
   border: 0.5rem inset var(--secondary-color);
 }
 .ship-btns, .ship-img {
+  text-shadow: -1px 1px black, 1px 1px black, 1px 1px black, 1px -1px black;
+  color: red;
   background-color: var(--main-color);
   height: 4em;
   width: 4em;
@@ -83,7 +86,6 @@ button[miss="true"].tile {
 }
 .title {
   font-size: 5rem;
-  color: var(--main-color);
   margin: 1rem 0rem 0rem;
   grid-row: 1 / 2;
   grid-column: 1 / -1;
@@ -135,6 +137,12 @@ button[target="true"].tile[placed="true"] {
 #radar {
   grid-area: 2 / 1 / 3 / 2;
 }
+#restart  { 
+  color: black;
+  font-size: 2rem;
+  padding: 1rem;
+
+}
 #ship-btn-container {
   margin: 1rem;
   grid-column: 2 / 3;
@@ -154,6 +162,7 @@ button[target="true"].tile[placed="true"] {
 #startbtn {
   grid-area: 3 / 2 / 4 / 3;
   background-color: var(--main-color);
+  color: black;
 }
 #startbtn:disabled {
   background-color: var(--disabled);
@@ -191,11 +200,12 @@ button[target="true"].tile[placed="true"] {
   align-content: center;
   border-radius: 15px;
   font-size: larger;
+  color: #000000;
   height: 10vh;
   aspect-ratio: 1 / 1;
   margin: 0.5rem;
-  border: 0.7rem outset var(--secondary-color);
-  background-color: var(--secondary-color);
+  border: 0.7rem solid var(--secondary-color);
+  background-color: var(--disabled);
 }
 [target="true"] {
   border: 0.3rem solid red;
@@ -205,8 +215,8 @@ button[target="true"].tile[placed="true"] {
 }
 
 #xtoggle.highlight {
-  border: 0.7rem inset var(--main-color);
-  background-color: var(--main-color);
+  border: 0.7rem solid var(--main-color);
+  background-color: var(--secondary-color);
 }
 @media (max-width: 700px) {
   .container {
@@ -216,6 +226,9 @@ button[target="true"].tile[placed="true"] {
     width: 90%;
   }
   #radar {
+    display: none;
+  }
+  #active-ship-display {
     display: none;
   }
 }
