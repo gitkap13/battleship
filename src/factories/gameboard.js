@@ -27,6 +27,7 @@ const makeBoard = (player = "", playerShips = []) => {
   // checks if target is valid and updates tile with hit or miss
   // if hit func will check if the ship placed on tile has sunk
   function receiveAttack(tile) {
+    console.log(player)
     if (!coordinates[tile].attacked) {
       cannonMp3.play();
       $(`#${player}-${tile}`).attr("target", "true");
@@ -36,8 +37,12 @@ const makeBoard = (player = "", playerShips = []) => {
           ship.occupiedSquares.includes(tile * 1)
         );
         target.hit(tile);
+        console.log(target);
         let sunk = target.isSunk();
-        if (sunk) sunkShips.push(target);
+        if (sunk) {
+          if (player == 'player2') $(`#${target.type}`).remove();
+          sunkShips.push(target);
+        }
         setTimeout(() => {
           boomMp3.play();
           if (sunk) sunkMp3.play();

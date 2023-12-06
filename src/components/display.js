@@ -1,3 +1,5 @@
+const shipTypes = require('../reference/ship-types');
+const $ = require('jquery');
 const initBoardDisplay = (player) => {
   const container = document.createElement("div");
   container.setAttribute("id", `${player}-container`);
@@ -38,8 +40,25 @@ const displayHeader = () => {
   header.textContent = 'BATTLESHIP';
   $('body').append(header)
 }
+const displayActiveShips = () => {
+  let container = document.createElement('div');
+  container.setAttribute('id', 'active-ship-display');
+  let title = document.createElement('p');
+  title.setAttribute('id', 'ship-title')
+  title.textContent = 'ENEMY SHIPS REMAINING';
 
+  container.append(title);
+  Object.keys(shipTypes).forEach((key) => {
+    let div = document.createElement("div");
+    div.setAttribute("id", `${key}`);
+    div.setAttribute("class", "ship-img");
+    div.style.backgroundImage = `url(${shipTypes[key].img})`;
+    container.append(div);
+  });
+ return container
+}
 
 exports.initBoardDisplay = initBoardDisplay;
 exports.displayResultMsg = displayResultMsg;
 exports.displayHeader = displayHeader;
+exports.displayActiveShips = displayActiveShips;

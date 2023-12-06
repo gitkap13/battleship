@@ -56,7 +56,7 @@ const randomShips = () => {
       occupied
     );
     if (ship) {
-      let newShip = makeShip(shipTypes[shipType].size);
+      let newShip = makeShip(shipTypes[shipType].size, shipType);
       newShip.occupiedSquares.push(...ship);
       occupied.push(...ship);
       finishedShips.push(newShip);
@@ -69,7 +69,7 @@ const randomShips = () => {
 // create initial board for player to select ship placement
 const getShips = () => {
   let curShip = {
-    name: null,
+    type: null,
     size: null,
     xAxis: false,
   };
@@ -113,7 +113,7 @@ const getShips = () => {
       }
     });
     tile.addEventListener("click", () => {
-      if (curShip.name !== null && curShip.size !== null) {
+      if (curShip.type !== null && curShip.size !== null) {
         let coordinates = checkSquares(
           tile.value,
           curShip.xAxis,
@@ -121,17 +121,17 @@ const getShips = () => {
           occupied
         );
         if (coordinates) {
-          let newShip = makeShip(curShip.size);
+          let newShip = makeShip(curShip.size, curShip.type);
           newShip.occupiedSquares = coordinates;
           occupied.push(...coordinates);
           ships.push(newShip);
           $("#xtoggle").removeClass("highlight");
-          $(`#${curShip.name}`).remove();
+          $(`#${curShip.type}`).remove()
           for (let i = 0; i < coordinates.length; i++) {
             $(`[value=${coordinates[i]}]`).attr("id", "placedship");
           }
           curShip = {
-            name: null,
+            type: null,
             size: null,
             xAxis: false,
           };
@@ -178,7 +178,7 @@ const getShips = () => {
     const shipBtns = document.createElement("div");
     shipBtns.setAttribute("id", "ship-btn-container");
     const selectListener = (btn) => {
-      return (curShip.size = shipTypes[btn.id].size), (curShip.name = btn.id);
+      return (curShip.size = shipTypes[btn.id].size), (curShip.type = btn.id);
     };
 
     Object.keys(shipTypes).forEach((key) => {

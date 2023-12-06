@@ -1,5 +1,5 @@
 //return ship object with coordinates and hit tracking
-const makeShip = (length = 0) => {
+const makeShip = (length = 0, type = "") => {
   if (length > 0) {
     const occupiedSquares = [];
     const hits = [];
@@ -16,9 +16,9 @@ const makeShip = (length = 0) => {
         } else return false;
       } else return true;
     };
-    return { length, occupiedSquares, hits, sunk, hit, isSunk };
-  } else throw new Error('Ship creation error: ship length must be greater than 0.')
+    return { length, occupiedSquares, hits, sunk, hit, isSunk, type };
+  } else
+    throw new Error("Ship creation error: ship length must be greater than 0.");
 };
 
 module.exports = makeShip;
-
