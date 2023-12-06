@@ -1,6 +1,10 @@
 const playerSelections = require("../factories/player");
 const $ = require("jquery");
-const { initBoardDisplay, displayResultMsg, displayActiveShips } = require("./display");
+const {
+  initBoardDisplay,
+  displayResultMsg,
+  displayActiveShips,
+} = require("./display");
 const gameMusic = new Audio("../src/assets/sounds/8-bit-music.mp3");
 gameMusic.loop = true;
 gameMusic.volume = 0.7;
@@ -22,7 +26,7 @@ const initGame = (p1ships = [], p2ships = []) => {
   $(".title").remove();
   $("#radar").removeClass("hidden");
   $("body").append(muteButton);
-  $('body').append(displayActiveShips());
+  $("body").append(displayActiveShips());
 
   const player1 = playerSelections.createHumanPlayer("player1", p1ships);
   const player2 = playerSelections.createComPlayer(p2ships);

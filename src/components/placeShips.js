@@ -126,7 +126,7 @@ const getShips = () => {
           occupied.push(...coordinates);
           ships.push(newShip);
           $("#xtoggle").removeClass("highlight");
-          $(`#${curShip.type}`).remove()
+          $(`#${curShip.type}`).remove();
           for (let i = 0; i < coordinates.length; i++) {
             $(`[value=${coordinates[i]}]`).attr("id", "placedship");
           }
@@ -140,7 +140,7 @@ const getShips = () => {
           startBtn.disabled = false;
           $("#ship-btn-container").remove();
           $("#startbtn").removeClass("hidden");
-          $('#xtoggle').remove();
+          $("#xtoggle").remove();
         }
       } else throw new Error("Invalid input: no ship selected");
     });
@@ -186,9 +186,10 @@ const getShips = () => {
       btn.setAttribute("id", `${key}`);
       btn.setAttribute("class", "ship-btns");
       btn.setAttribute("size", `${shipTypes[key].size}`);
+      btn.textContent = `${shipTypes[key].size}`;
       btn.addEventListener("click", () => {
-        $('[toggle]').removeAttr('toggle')
-        btn.setAttribute('toggle', 'true');
+        $("[toggle]").removeAttr("toggle");
+        btn.setAttribute("toggle", "true");
         selectListener(btn);
       });
       btn.style.backgroundImage = `url(${shipTypes[key].img})`;
