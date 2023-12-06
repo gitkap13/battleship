@@ -31,6 +31,13 @@ const displayResultMsg = (win = Boolean) => {
     let msg = document.createElement("p");
     msg.textContent = resultMsg;
     container.append(msg);
+    let restart = document.createElement('button');
+    restart.setAttribute('id', 'restart');
+    restart.textContent = 'RESTART';
+    restart.addEventListener('click', () => {
+      location.reload()
+    });
+    container.append(restart)
     $("body").append(container);
   };
 
@@ -50,6 +57,7 @@ const displayActiveShips = () => {
   container.append(title);
   Object.keys(shipTypes).forEach((key) => {
     let div = document.createElement("div");
+    div.textContent = `${shipTypes[key].size}`;
     div.setAttribute("id", `${key}`);
     div.setAttribute("class", "ship-img");
     div.style.backgroundImage = `url(${shipTypes[key].img})`;
