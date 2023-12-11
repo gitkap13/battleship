@@ -5,7 +5,7 @@ const {
   displayResultMsg,
   displayActiveShips,
 } = require("./display");
-const gameMusic = new Audio("../src/assets/sounds/8-bit-music.mp3");
+const gameMusic = new Audio("./src/assets/sounds/8-bit-music.mp3");
 gameMusic.loop = true;
 gameMusic.volume = 0.7;
 
