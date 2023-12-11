@@ -1,8 +1,8 @@
 const $ = require("jquery");
-const boomMp3 = new Audio("../src/assets/sounds/8-bit-boom.mp3");
-const missMp3 = new Audio("../src/assets/sounds/8-bit-miss.mp3");
-const cannonMp3 = new Audio("../src/assets/sounds/8-bit-cannon.mp3");
-const sunkMp3 = new Audio("../src/assets/sounds/8-bit-bubbles.mp3");
+const boomMp3 = new Audio("./src/assets/sounds/8-bit-boom.mp3");
+const missMp3 = new Audio("./src/assets/sounds/8-bit-miss.mp3");
+const cannonMp3 = new Audio("./src/assets/sounds/8-bit-cannon.mp3");
+const sunkMp3 = new Audio("./src/assets/sounds/8-bit-bubbles.mp3");
 
 // func to create 10x10 boards for players
 // takes array of ships and
