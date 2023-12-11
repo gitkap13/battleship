@@ -27,7 +27,6 @@ const makeBoard = (player = "", playerShips = []) => {
   // checks if target is valid and updates tile with hit or miss
   // if hit func will check if the ship placed on tile has sunk
   function receiveAttack(tile) {
-    console.log(player)
     if (!coordinates[tile].attacked) {
       cannonMp3.play();
       $(`#${player}-${tile}`).attr("target", "true");

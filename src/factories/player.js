@@ -19,14 +19,12 @@ const playerSelections = {
       randomAttack: () => {
         let index = Math.floor(Math.random() * attacks.availableAttacks.length);
         let target = attacks.availableAttacks[index];
-        console.log(`com attack at ${target}`);
         attacks.availableAttacks.splice(index, 1);
         return target;
       },
       guessAttack: () => {
         let target = attacks.likelyHits.shift();
         target = target * 1;
-        console.log(`com attack at ${target}`);
         if (attacks.availableAttacks.includes(target)) {
           attacks.availableAttacks.splice(
             attacks.availableAttacks.indexOf(target),
